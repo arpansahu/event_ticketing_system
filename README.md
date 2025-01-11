@@ -1,4 +1,3 @@
-
 ---
 
 # **Event Ticketing System**
@@ -16,10 +15,11 @@ This is a web-based Event Ticketing System built using Django REST framework tha
 6. [Running the Application](#running-the-application)
 7. [Running Without Docker](#running-without-docker)
 8. [Running Tests](#running-tests)
-9. [API Endpoints](#api-endpoints)
-10. [Troubleshooting](#troubleshooting)
-11. [Contributing](#contributing)
-12. [License](#license)
+9. [Postman Collection](#postman-collection)
+10. [API Endpoints](#api-endpoints)
+11. [Troubleshooting](#troubleshooting)
+12. [Contributing](#contributing)
+13. [License](#license)
 
 ---
 
@@ -224,6 +224,26 @@ Here are the available test files and how to run them:
 
 ---
 
+## **Postman Collection**
+
+### **1. Pre-Built Postman Collection**
+
+The project includes a pre-built Postman collection that you can import for testing:
+- **File Path:** `postman_collection/event_ticketing_system.postman_collection.json`
+
+### **2. Import Steps**
+1. Open **Postman**.
+2. Click **Import**.
+3. Select the file `event_ticketing_system.postman_collection.json`.
+4. **Set the `baseUrl` Variable:**
+   - In Postman, set the `baseUrl` environment variable to:
+     ```plaintext
+     http://127.0.0.1:8000
+     ```
+   - This is used to configure the API base URL.
+
+---
+
 ## **API Endpoints**
 
 | HTTP Method | Endpoint             | Description                       |
@@ -288,5 +308,3 @@ Here are the available test files and how to run them:
 This project is licensed under the MIT License.
 
 ---
-
-Let me know if you need any further updates or additions!
