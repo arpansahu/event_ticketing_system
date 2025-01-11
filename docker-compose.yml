@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  # -----------------------------
+  # Django App
+  # -----------------------------
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_app
+    ports:
+      - "8000:8000"  # Django app port exposed to host
+    depends_on:
+      postgres:
+        condition: service_healthy  # Wait until PostgreSQL is healthy
+    environment:
+      DJANGO_SETTINGS_MODULE: event_ticketing_system.settings  # Django settings module
+      DATABASE_NAME: event_ticketing_db  # PostgreSQL database name
+      DATABASE_USER: event_user  # PostgreSQL username
+      DATABASE_PASSWORD: event_password  # PostgreSQL password
+      DATABASE_HOST: postgres  # PostgreSQL hostname (service name)
+      DATABASE_PORT: 5432  # PostgreSQL port
+    volumes:
+      - .:/app  # Mount project directory into container
+    restart: always  # Restart the container if it stops unexpectedly
+    command: ["sh", "-c", "python manage.py migrate && python manage.py seed && python manage.py runserver 0.0.0.0:8000"]
+
+  # -----------------------------
+  # PostgreSQL Database
+  # -----------------------------
+  postgres:
+    image: postgres:14  # PostgreSQL version 14
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: event_ticketing_db  # Name of the database
+      POSTGRES_USER: event_user  # Username
+      POSTGRES_PASSWORD: event_password  # Password
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port for external access
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent data storage
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U event_user -d event_ticketing_db -h 127.0.0.1 || exit 1"]
+      interval: 10s  # Interval between health checks
+      timeout: 5s  # Timeout for each check
+      retries: 5  # Retry attempts before considering unhealthy
+
+# -----------------------------
+# Named Volume for PostgreSQL Persistence
+# -----------------------------
+volumes:
+  postgres_data:  # Persistent PostgreSQL data
