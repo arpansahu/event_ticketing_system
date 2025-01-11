@@ -17,9 +17,11 @@ This is a web-based Event Ticketing System built using Django REST framework tha
 8. [Running Tests](#running-tests)
 9. [Postman Collection](#postman-collection)
 10. [API Endpoints](#api-endpoints)
-11. [Troubleshooting](#troubleshooting)
-12. [Contributing](#contributing)
-13. [License](#license)
+11. [API Documentation](#api-documentation)
+12. [Design Choices and Assumptions](#design-choices-and-assumptions)
+13. [Troubleshooting](#troubleshooting)
+14. [Contributing](#contributing)
+15. [License](#license)
 
 ---
 
@@ -259,6 +261,23 @@ The project includes a pre-built Postman collection that you can import for test
 ## **API Documentation**
 - **Swagger UI:** `http://127.0.0.1:8000/api/schema/swagger-ui/`
 - **ReDoc:** `http://127.0.0.1:8000/api/schema/redoc/`
+
+---
+
+## **Design Choices and Assumptions**
+
+1. **Django REST Framework**: Chosen for its simplicity and support for rapid API development.
+2. **Swagger and ReDoc Integration**: Provides a user-friendly interface to view and test API endpoints.
+3. **PostgreSQL Database**: Reliable relational database with support for ACID transactions, making it ideal for handling concurrent ticket purchases.
+4. **Concurrency Handling**: Implemented using `select_for_update()` to lock database rows during concurrent ticket purchases, preventing overselling.
+5. **Docker Support**: Added Docker and Docker Compose for simplified development, ensuring the same environment across different machines.
+6. **Seed Command**: A custom Django management command (`python manage.py seed`) for creating demo data for easier testing.
+7. **Postman Collection**: Included for easier testing and API exploration by developers and testers.
+
+**Assumptions:**
+- The event end time should always be after the start time.
+- Users are allowed to make ticket purchases without user authentication for simplicity.
+- The application assumes a default page size of 10 for event listings.
 
 ---
 
